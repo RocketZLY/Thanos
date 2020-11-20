@@ -1,0 +1,4 @@
+include ':realgem'
+include ':thanos'
+include ':app'
+rootProject.name = "Thanos"

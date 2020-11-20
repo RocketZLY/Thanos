@@ -1,0 +1,38 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'kotlin'
+    id 'maven'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly "com.android.tools.build:gradle:$agp_version"
+    implementation "org.javassist:javassist:3.25.0-GA"
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+gradlePlugin {
+    plugins {
+        lintPlugin {
+            id = 'com.rocketzly.thanos'//plugin id
+            implementationClass = 'com.rocketzly.thanos.ThanosPlugin'
+        }
+    }
+}
+
+group = 'com.rocketzly'
+version = '0.0.1'
+
+// 发布到本地仓库
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+            pom.project {
+                artifactId = 'thanos'
+            }
+        }
+    }
+}
