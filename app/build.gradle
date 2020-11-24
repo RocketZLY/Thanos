@@ -25,6 +25,10 @@ android {
     }
 }
 
+thanos {
+    packageName = "com.rocketzly"
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

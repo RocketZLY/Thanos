@@ -13,5 +13,5 @@ interface Injector {
 
     fun loadClassPath(dirFileList: List<File>, jarFileList: List<File>, androidJarFile: File)
 
-    fun inject(input: InputStream, out: OutputStream, qualifiedClassName: String)
+    fun inject(input: InputStream, out: OutputStream, qualifiedClassName: String): Boolean
 }

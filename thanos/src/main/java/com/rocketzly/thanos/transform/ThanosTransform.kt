@@ -1,9 +1,9 @@
 package com.rocketzly.thanos.transform
 
+import com.rocketzly.thanos.ExtName
+import com.rocketzly.thanos.extension.ThanosExt
 import com.rocketzly.thanos.injector.CodeInjector
-import javassist.ClassPool
 import org.gradle.api.Project
-import java.io.DataOutputStream
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -30,21 +30,22 @@ class ThanosTransform(project: Project) : BaseTransform(project) {
     }
 
     override fun apply(input: InputStream, out: OutputStream, qualifiedClassName: String): Boolean {
-        if (qualifiedClassName.contains(PKG_NAME) && validClass(qualifiedClassName)) {
-            injector.inject(input, out, qualifiedClassName)
-            return true
+        if (validClass(qualifiedClassName)) {
+            return injector.inject(input, out, qualifiedClassName)
         }
         return false
     }
 
-    companion object {
-        const val PKG_NAME = "com.rocketzly"
-    }
-
     /**
-     * 过滤R.jar
+     * 是自己的包名，并过滤R.jar
      */
-    fun validClass(className: String): Boolean =
-        className != "$PKG_NAME.R" && !className.contains("$PKG_NAME.R$")
+    private fun validClass(className: String): Boolean {
+        val pkgName =
+            (project.extensions.getByName(ExtName.THANOS) as? ThanosExt)?.packageName ?: return true
+
+        return className.contains(pkgName) &&
+                className != "$pkgName.R" &&
+                !className.contains("$pkgName.R$")
+    }
 
 }

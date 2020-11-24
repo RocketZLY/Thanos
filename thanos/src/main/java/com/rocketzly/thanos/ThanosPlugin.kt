@@ -1,6 +1,7 @@
 package com.rocketzly.thanos
 
 import com.android.build.gradle.AppExtension
+import com.rocketzly.thanos.extension.ThanosExt
 import com.rocketzly.thanos.transform.ThanosTransform
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -20,5 +21,6 @@ class ThanosPlugin : Plugin<Project> {
             ThanosTransform(project)
         )
 
+        project.extensions.add(ExtName.THANOS, ThanosExt())
     }
 }
