@@ -7,5 +7,6 @@ package com.rocketzly.thanos.extension
  */
 class ThanosExt {
 
-    var packageName: String? = null
+    var isFull: Boolean = false
+    var exclude: List<String> = listOf()
 }

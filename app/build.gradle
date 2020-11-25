@@ -26,7 +26,7 @@ android {
 }
 
 thanos {
-    packageName = "com.rocketzly"
+    exclude = ["com.rocketzly.test*"]
 }
 
 dependencies {

@@ -5,8 +5,9 @@ package com.rocketzly.thanos
  * Date: 2020/11/23
  * Time: 6:52 PM
  */
-class ExtName{
+class Constants{
     companion object{
-        const val THANOS = "thanos"
+        const val EXT_NAME_THANOS = "thanos"
+        const val PKG_NAME_REALGEM = "com.rocketzly.realgem"
     }
 }

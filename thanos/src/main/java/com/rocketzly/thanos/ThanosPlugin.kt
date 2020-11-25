@@ -14,13 +14,13 @@ import org.gradle.api.Project
 class ThanosPlugin : Plugin<Project> {
     override fun apply(project: Project) {
 
+        project.extensions.add(Constants.EXT_NAME_THANOS, ThanosExt())
+
         // 获取Android扩展
         val android = project.extensions.getByType(AppExtension::class.java)
         // 注册Transform，其实就是添加了Task
         android.registerTransform(
             ThanosTransform(project)
         )
-
-        project.extensions.add(ExtName.THANOS, ThanosExt())
     }
 }
