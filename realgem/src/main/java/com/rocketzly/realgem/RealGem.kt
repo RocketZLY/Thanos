@@ -34,6 +34,7 @@ class RealGem private constructor() {
         this.file = context.getFileStreamPath(FILE_NAME)// ./data/data/pkgname/files/realGem
     }
 
+    @Synchronized
     fun use(methodDesc: String) {
         if (!init) return
 
@@ -41,19 +42,18 @@ class RealGem private constructor() {
         val byteArray = log.toByteArray()
         val length = byteArray.size
 
-        synchronized(this) {
-            if (length > buffer.size) {//超出缓冲区大小直接写文件 理论上不会出现这种情况
-                //写文件
-                return
-            }
-            if (length + count > buffer.size) {//buffer写不下，写入文件
-                flush()
-            }
-
-            //写入缓存
-            System.arraycopy(byteArray, 0, buffer, count, length)
-            count += length
+        if (length > buffer.size) {//超出缓冲区大小直接写文件 理论上不会出现这种情况
+            //写文件
+            return
         }
+        if (length + count > buffer.size) {//buffer写不下，写入文件
+            flush()
+        }
+
+        //写入缓存
+        System.arraycopy(byteArray, 0, buffer, count, length)
+        count += length
+
     }
 
     private fun generateLog(methodDesc: String): String {

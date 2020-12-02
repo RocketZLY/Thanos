@@ -8,6 +8,7 @@ package com.rocketzly.thanos
 class Constants{
     companion object{
         const val EXT_NAME_THANOS = "thanos"
+
         const val PKG_NAME_REALGEM = "com.rocketzly.realgem"
     }
 }

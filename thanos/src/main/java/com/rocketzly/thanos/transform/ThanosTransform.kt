@@ -1,6 +1,7 @@
 package com.rocketzly.thanos.transform
 
-import com.rocketzly.thanos.injector.CodeInjector
+import com.rocketzly.thanos.injector.Injector
+import com.rocketzly.thanos.injector.JavaSsistInjector
 import org.gradle.api.Project
 import java.io.File
 import java.io.InputStream
@@ -13,8 +14,7 @@ import java.io.OutputStream
  */
 class ThanosTransform(project: Project) : BaseTransform(project) {
 
-    private val injector = CodeInjector()
-    private val filter = ClassFilter(project)
+    private val injector: Injector = JavaSsistInjector(project)
 
     override fun getName(): String {
         return ThanosTransform::class.java.simpleName
@@ -29,9 +29,6 @@ class ThanosTransform(project: Project) : BaseTransform(project) {
     }
 
     override fun apply(input: InputStream, out: OutputStream, qualifiedClassName: String): Boolean {
-        if (filter.validClass(qualifiedClassName)) {
-            return injector.inject(input, out, qualifiedClassName)
-        }
-        return false
+        return injector.inject(input, out, qualifiedClassName)
     }
 }
