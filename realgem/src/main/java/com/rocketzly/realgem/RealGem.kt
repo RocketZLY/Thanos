@@ -35,7 +35,7 @@ class RealGem private constructor() {
     fun use(methodDesc: String) {
         if (!init) return
         //写入
-        logManager.write(methodDesc)
+        logManager?.write(methodDesc)
     }
 
 

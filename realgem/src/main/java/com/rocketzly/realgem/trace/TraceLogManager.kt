@@ -13,8 +13,10 @@ import java.util.concurrent.Executors
  */
 class TraceLogManager(val context: Context) {
 
-    private val executor = Executors.newSingleThreadExecutor {
-        Thread(it, "realGem")
+    companion object {
+        private val executor = Executors.newSingleThreadExecutor {
+            Thread(it, "realGem")
+        }
     }
 
     private val dao = RealGemDao(context)
