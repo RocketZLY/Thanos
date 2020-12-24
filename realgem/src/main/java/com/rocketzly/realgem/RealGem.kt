@@ -11,9 +11,14 @@ import com.rocketzly.realgem.trace.TraceLogManager
  */
 class RealGem private constructor() {
 
-    private var init = false
-    private lateinit var context: Context
-    private lateinit var logManager: TraceLogManager
+    internal var isDebug = false
+
+    /**
+     * 方法频率阈值
+     */
+    internal var frequencyThreshold = DEF_FREQUENCY_THRESHOLD
+    internal lateinit var context: Context
+    internal lateinit var logManager: TraceLogManager
 
     companion object {
 
@@ -21,22 +26,33 @@ class RealGem private constructor() {
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             RealGem()
         }
+
+        /**
+         * 默认方法频率阈值，单位：毫秒/次数，超过则认为是频繁调用的方法
+         */
+        const val DEF_FREQUENCY_THRESHOLD = 1000 / 60f
     }
 
-    @Synchronized
     fun init(context: Context) {
-        if (init) return
-        init = true
-
         this.context = context
-        this.logManager = TraceLogManager(context)
+        this.logManager = TraceLogManager(this)
+    }
+
+    fun debug(isDebug: Boolean): RealGem {
+        this.isDebug = isDebug
+        return this
+    }
+
+    fun methodFrequencyThreshold(threshold: Float): RealGem {
+        this.frequencyThreshold = threshold
+        return this
     }
 
     fun use(methodDesc: String) {
-        if (!init) return
         //写入
-        logManager?.write(methodDesc)
+        if (this::logManager.isInitialized) {
+            logManager.write(methodDesc)
+        }
     }
-
 
 }

@@ -48,11 +48,13 @@ class InjectFilter {
      * 有效的方法，过滤掉如下几类
      * 1. 抽象方法
      * 2. native方法
-     * 3. kt自动生成方法（_$_findCachedViewById(int),_$_clearFindViewByIdCache()）
+     * 3. synthetic方法
+     * 4. kt自动生成方法（_$_findCachedViewById(int),_$_clearFindViewByIdCache()）
      */
     fun validMethod(ctMethod: CtMethod): Boolean {
         if (ctMethod.isEmpty) return false//抽象方法
         if (ctMethod.modifiers and AccessFlag.NATIVE != 0) return false//native方法
+        if (ctMethod.modifiers and AccessFlag.SYNTHETIC != 0) return false//synthetic方法
         val longName = ctMethod.longName
         if (longName.contains("_\$_findCachedViewById(int)") ||
             longName.contains("_\$_clearFindViewByIdCache()")
